@@ -178,7 +178,7 @@ int main() {
   int N,M; cin >> N >> M;
   WGraph G(N); vector&lt;ll&gt; dist(N,INF);
   for (int i = 0; i &lt; M; i++) {
-    int a,b,c; cin >> a >> b >> c;
+    int a,b; ll c; cin >> a >> b >> c;
     a--; b--;
     G[a].push_back({b,c});
     G[b].push_back({a,c}); //有効グラフならいらない
