@@ -111,7 +111,8 @@ int main() {
     a--; b--;
     edges[i] = {a,b,w};
   }
-  sort(edges.begin(),edges.end(),[](auto &a,auto &b){return a.cost < b.cost});
+  sort(edges.begin(),edges.end(),
+    [](auto &a,auto &b){return a.cost < b.cost});
   int used = 0;
   ll ans = 0;
   for (const auto &[a,b,w] : edges) {
