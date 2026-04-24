@@ -105,22 +105,24 @@ struct WUnionFind {
 int main() {
   int N,M; cin >> N >> M;
   UnionFind uf(N);
-  vector<tuple<ll,int,int>> edges(M);
+  vector&lt;edge&gt; edges(M);
   for (int i = 0; i < M; i++) {
     int a,b; ll w; cin >> a >> b >> w;
     a--; b--;
     edges[i] = {w,a,b};
   }
-  sort(edges.begin(),edges.end());
+  sort(edges.begin(),edges.end(),[](auto a,auto b){
+    if (a.cost < b.cost) return a < b;
+    return a > b;
+    });
   int used = 0;
   ll ans = 0;
-  for (auto [w,a,b] : edges) {
+  for (const auto &[w,a,b] : edges) {
     if (used == N-1) break;
     if (uf.same(a,b)) continue;
     uf.unite(a,b); ans += w; used++;
   }
-  if (used != N-1) cout << -1 << endl;
-  else cout << ans << endl;
+  //used != N-1なら非連結
 }
       </code></pre>
     </div>
@@ -172,7 +174,7 @@ int main() {
   }
 }
       </code></pre>
-      <p>・dijkstra(重み付きの最短距離)</p>
+      <p>・dijkstra(重み付き最短距離)</p>
       <pre><code class="language-cpp">
 int main() {
   int N,M; cin >> N >> M;
@@ -197,9 +199,37 @@ int main() {
   }
 }
       </code></pre>
+      <p>・bellman-ford(負の辺ありの重み付き最短距離)</p>
+      <pre><code class="language-cpp">
+int main() {
+  int N,M; cin >> N >> M;
+  vector&lt;edge&gt; edges(M); vector<ll> dist(N,INF);
+  for (int i = 0; i < M; i++) {
+    int a,b; ll c;
+    a--; b--;
+    edges[i] = {a,b,c};
+  }
+  dist[0] = 0; //0スタート設定、入力によって変更
+  for (int i = 0; i < N-1; i++) {
+    for (const auto &[from,to,cost] : edges) {
+      if (dist[from] == INF) continue;
+      if (dist[to] > dist[from] + cost) {
+        dist[to] = dist[from] + cost;
+      }
+    }
+  }
+  bool ok = true;
+  for (const auto &[from,to,cost] : edges) {
+    if (dist[from] == INF) continue;
+    if (dist[to] > dist[from] + cost) {
+      ok = false; //falseになったなら負閉路あり
+    }
+  }
+}
+      </code></pre>
       <p>
         とりあえずてきとーに特によく使うものを並べました。<br />
-        右の列の3つは問題に合わせて調整しないとダメなので注意
+        問題に合わせて調整しないとダメなので注意
       </p>
     </div>
   </div>
