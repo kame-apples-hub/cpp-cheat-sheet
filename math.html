@@ -12,8 +12,8 @@
     <div>
       <p>・素因数分解(数Aでやった奴をコードにしただけ)</p>
       <pre><code class="language-cpp">
-map<ll,ll> prime_factorization(ll N) {
-  map<ll,ll> res;
+map&lt;ll,ll&gt; prime_factorization(ll N) {
+  map&lt;ll,ll&gt; res;
   for (ll i = 2; i*i <= N; i++) {
     while (N % i == 0) {
       res[i]++;
